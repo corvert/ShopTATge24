@@ -16,6 +16,7 @@
 				<th scope="col">Type</th>
 				<th scope="col">Build date</th>
 				<th scope="col">Crew</th>
+				<th scope="col">Modify</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,6 +31,11 @@
 					<td>@spaceship.Classification</td>
 					<td>@spaceship.BuildDate</td>
 					<td>@spaceship.Crew</td>
+					<td>
+						<a asp-action="delete" asp-controller="spaceships" 
+						asp-route-id="@spaceship.Id" class="btn btn-outline-danger">Delete</a>
+						
+					</td>
 				</tr>	
 			}
 		</tbody>
