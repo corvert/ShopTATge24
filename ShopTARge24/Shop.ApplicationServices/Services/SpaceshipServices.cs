@@ -35,6 +35,24 @@ namespace Shop.ApplicationServices.Services
             return spaceShips;
         }
 
+        public async Task<SpaceShips> Update(SpaceShipDto dto)
+        {
+            SpaceShips spaceShips = new SpaceShips();
+            spaceShips.Id = dto.Id;
+            spaceShips.Name = dto.Name;
+            spaceShips.Classification = dto.Classification;
+            spaceShips.BuildDate = dto.BuildDate;
+            spaceShips.Crew = dto.Crew;
+            spaceShips.EnginePower = dto.EnginePower;
+            spaceShips.CreatedAt = dto.CreatedAt;
+            spaceShips.ModifiedAt = DateTime.Now;
+
+            _context.SpaceShips.Update(spaceShips);
+            await _context.SaveChangesAsync();
+
+            return spaceShips;
+        }
+
         public async Task<SpaceShips> DetailAsync(Guid id)
         {
             var result = await _context.SpaceShips
