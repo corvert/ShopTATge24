@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
+using ShopTARge24.Models.Kindergarten;
 
 namespace ShopTARge24.Controllers
 {
@@ -12,14 +13,18 @@ namespace ShopTARge24.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            
 
             var result = _context.Kindergartens.Select( x => new KindergartenIndexViewModel
             {
                 Id = x.Id,
-                Name = x.Name,
-                Address = x.Address,
-                Capacity = x.Capacity
+                GroupName = x.GroupName,
+                ChildrenCount = x.ChildrenCount,
+                KindergartenName = x.KindergartenName,
+                TeacherName = x.TeacherName,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt
+
             });
             return View(result);
         }
