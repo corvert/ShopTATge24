@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shop.Core.Dto;
+using Shop.Core.ServiceInterface;
 using Shop.Data;
 using ShopTARge24.Models.Kindergarten;
 
@@ -6,10 +8,13 @@ namespace ShopTARge24.Controllers
 {
     public class KindergartenController : Controller
     {
-        public readonly ShopContext _context;
-        public KindergartenController(ShopContext context)
+        private readonly ShopContext _context;
+        private readonly IKindergartenServices _kindergartenServices;
+
+        public KindergartenController(ShopContext context, IKindergartenServices kindergartenServices)
         {
             _context = context;
+            _kindergartenServices = kindergartenServices;
         }
         public IActionResult Index()
         {
@@ -27,6 +32,35 @@ namespace ShopTARge24.Controllers
 
             });
             return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            KindergartenCreateViewModel result = new();
+            return View("Create", result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(KindergartenCreateViewModel vm)
+        {
+            var dto = new KindergartenDto()
+            {
+                Id = vm.Id,
+                GroupName = vm.GroupName,
+                ChildrenCount = vm.ChildrenCount,
+                KindergartenName = vm.KindergartenName,
+                TeacherName = vm.TeacherName,
+                CreatedAt = vm.CreatedAt,
+                UpdatedAt = vm.UpdatedAt
+
+            };
+            var result = await _kindergartenServices.Create(dto);
+            if (result != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
