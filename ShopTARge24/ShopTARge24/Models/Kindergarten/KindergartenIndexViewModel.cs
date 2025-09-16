@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shop.Core.Domain
+﻿namespace ShopTARge24.Models.Kindergarten
 {
-    public class Kindergarten
+    public class KindergartenIndexViewModel
     {
         public Guid id { get; set; }
         public string GroupName { get; set; }
