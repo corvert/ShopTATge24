@@ -1,6 +1,6 @@
 ﻿namespace ShopTARge24.Models.Kindergarten
 {
-    public class KindergartenDeleteViewModel
+    public class KindergartenDeleteDetailsViewModel
     {
         public Guid Id { get; set; }
         public string GroupName { get; set; }
@@ -9,5 +9,6 @@
         public string TeacherName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public bool ShowDeleteBtn { get; set; }
     }
 }

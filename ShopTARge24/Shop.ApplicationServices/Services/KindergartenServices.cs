@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
@@ -42,6 +37,18 @@ namespace Shop.ApplicationServices.Services
         {
             var result = await _context.Kindergartens.FirstOrDefaultAsync(x => x.Id == id);
             return result;
+        }
+
+        public async Task<Kindergarten> Delete(Guid id)
+        {
+            var kindergarten = await _context.Kindergartens.FirstOrDefaultAsync(x => x.Id == id);
+            if (kindergarten != null)
+
+            {
+                _context.Kindergartens.Remove(kindergarten);
+                await _context.SaveChangesAsync();
+            }
+            return kindergarten;
         }
     }
 }

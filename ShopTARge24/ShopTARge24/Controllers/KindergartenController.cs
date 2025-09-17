@@ -71,7 +71,7 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
-            var vm = new KindergartenDeleteViewModel();
+            var vm = new KindergartenDeleteDetailsViewModel();
 
             vm.Id = kindergarten.Id;
             vm.GroupName = kindergarten.GroupName;
@@ -80,8 +80,10 @@ namespace ShopTARge24.Controllers
             vm.TeacherName = kindergarten.TeacherName;
             vm.CreatedAt = kindergarten.CreatedAt;
             vm.UpdatedAt = kindergarten.UpdatedAt;
-            
-            return View(vm);
+            vm.ShowDeleteBtn = true;
+
+
+            return View("DeleteDetails",vm);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmation(Guid id)
