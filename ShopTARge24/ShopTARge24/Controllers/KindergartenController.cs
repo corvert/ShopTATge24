@@ -37,12 +37,12 @@ namespace ShopTARge24.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            KindergartenCreateViewModel result = new();
-            return View("Create", result);
+            KindergartenCreateUpdateViewModel result = new();
+            return View("CreateUpdate", result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(KindergartenCreateViewModel vm)
+        public async Task<IActionResult> Create(KindergartenCreateUpdateViewModel vm)
         {
             var dto = new KindergartenDto()
             {
@@ -96,6 +96,46 @@ namespace ShopTARge24.Controllers
             }
             return RedirectToAction(nameof(Index));
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var kindergarten = await _kindergartenServices.DetailAsync(id);
+            if (kindergarten == null)
+            {
+                return NotFound();
+            }
+            var vm = new KindergartenCreateUpdateViewModel();
+            vm.Id = kindergarten.Id;
+            vm.GroupName = kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.TeacherName = kindergarten.TeacherName;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+            return View("CreateUpdate", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(KindergartenCreateUpdateViewModel vm)
+        {
+            var dto = new KindergartenDto()
+            {
+                Id = vm.Id,
+                GroupName = vm.GroupName,
+                ChildrenCount = vm.ChildrenCount,
+                KindergartenName = vm.KindergartenName,
+                TeacherName = vm.TeacherName,
+                CreatedAt = vm.CreatedAt,
+                UpdatedAt = DateTime.Now
+            };
+            var result = await _kindergartenServices.Update(dto);
+            if (result != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
         }
 
     }
