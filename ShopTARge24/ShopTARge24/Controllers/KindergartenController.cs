@@ -18,9 +18,9 @@ namespace ShopTARge24.Controllers
         }
         public IActionResult Index()
         {
-            
 
-            var result = _context.Kindergartens.Select( x => new KindergartenIndexViewModel
+
+            var result = _context.Kindergartens.Select(x => new KindergartenIndexViewModel
             {
                 Id = x.Id,
                 GroupName = x.GroupName,
@@ -65,9 +65,9 @@ namespace ShopTARge24.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
-        { 
+        {
             var kindergarten = await _kindergartenServices.DetailAsync(id);
-            if(kindergarten == null)
+            if (kindergarten == null)
             {
                 return NotFound();
             }
@@ -83,7 +83,7 @@ namespace ShopTARge24.Controllers
             vm.ShowDeleteBtn = true;
 
 
-            return View("DeleteDetails",vm);
+            return View("DeleteDetails", vm);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmation(Guid id)
@@ -138,5 +138,27 @@ namespace ShopTARge24.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var kindergarten = await _kindergartenServices.DetailAsync(id);
+            if (kindergarten == null)
+            {
+                return NotFound();
+            }
+            var vm = new KindergartenDeleteDetailsViewModel();
+
+            vm.Id = kindergarten.Id;
+            vm.GroupName = kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.TeacherName = kindergarten.TeacherName;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.ShowDeleteBtn = false;
+
+
+            return View("DeleteDetails", vm);
+        }
     }
 }

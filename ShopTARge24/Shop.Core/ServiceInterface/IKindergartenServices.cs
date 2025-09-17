@@ -15,6 +15,7 @@ namespace Shop.Core.ServiceInterface
         Task<Kindergarten> DetailAsync(Guid id);
         Task<Kindergarten> Delete(Guid id);
         Task<Kindergarten> Update(KindergartenDto dto);
+        Task<Kindergarten> Details(Guid id);
 
     }
 }
