@@ -1,4 +1,5 @@
 ﻿namespace ShopTARge24.Models.SpaceShips
+
 {
     public class ImageViewModel
     {
