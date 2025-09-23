@@ -13,7 +13,8 @@ namespace Shop.ApplicationServices.Services
         private readonly IHostEnvironment _webHost;
         private readonly ShopContext _context;
 
-        public FileServices(IHostEnvironment webHost,
+        public FileServices(
+            IHostEnvironment webHost,
             ShopContext context)
         {
             _webHost = webHost;

@@ -8,13 +8,19 @@ using Shop.Data;
 namespace Shop.ApplicationServices.Services
 {
     public class SpaceshipServices : ISpaceshipServices
+
+        
     {
         private readonly ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         //konstruktor
-        public SpaceshipServices(ShopContext context)
+        public SpaceshipServices(
+            ShopContext context,
+            IFileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         public async Task<SpaceShips> Create(SpaceShipDto dto)
@@ -28,6 +34,7 @@ namespace Shop.ApplicationServices.Services
             spaceShips.EnginePower = dto.EnginePower;
             spaceShips.CreatedAt = DateTime.Now;
             spaceShips.ModifiedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, spaceShips);
             
             await _context.SpaceShips.AddAsync(spaceShips);
             await _context.SaveChangesAsync();

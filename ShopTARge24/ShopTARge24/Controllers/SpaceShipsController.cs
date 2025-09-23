@@ -54,7 +54,15 @@ namespace ShopTARge24.Controllers
                 Crew = vm.Crew,
                 EnginePower = vm.EnginePower,
                 CreatedAt = vm.CreatedAt,
-                ModifiedAt = vm.ModifiedAt
+                ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                FileToApiDtos = vm.Image.Select(x => new FileToApiDto
+                {
+                    ImageId = x.ImageId,
+                    ExistingFilePath = x.FilePath,
+                    SpaceShipId = x.SpaceShipId,
+                    
+                }).ToArray()
 
             };
 
