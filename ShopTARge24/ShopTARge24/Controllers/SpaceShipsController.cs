@@ -122,6 +122,14 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+            var images = await _context.FileToApis
+          .Where(x => x.SpaceShipId == id)
+          .Select(y => new ImageViewModel
+          {
+              FilePath = y.ExistingFilePath,
+              ImageId = y.Id,
+              SpaceShipId = y.SpaceShipId
+          }).ToArrayAsync();
             var vm = new SpaceShipCreateUpdateViewModel();
             vm.Id = spaceship.Id;
             vm.Name = spaceship.Name;
@@ -131,6 +139,8 @@ namespace ShopTARge24.Controllers
             vm.EnginePower = spaceship.EnginePower;
             vm.CreatedAt = spaceship.CreatedAt;
             vm.ModifiedAt = spaceship.ModifiedAt;
+            vm.Image.AddRange(images);
+
             return View("CreateUpdate", vm);
         }
 
