@@ -53,6 +53,8 @@ namespace Shop.ApplicationServices.Services
             spaceShips.EnginePower = dto.EnginePower;
             spaceShips.CreatedAt = dto.CreatedAt;
             spaceShips.ModifiedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, spaceShips);
+
 
             _context.SpaceShips.Update(spaceShips);
             await _context.SaveChangesAsync();
