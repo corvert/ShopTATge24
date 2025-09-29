@@ -7,6 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\multipleFileUpload\04abe721-91b7-4487-8973-60efb2dbd014_IMG_6537.JPG" />
+    <None Include="wwwroot\multipleFileUpload\0a3f5e8d-7173-4247-815d-89b713f9902c_IMG_6536.JPG" />
+    <None Include="wwwroot\multipleFileUpload\0b80ab31-c8a8-4892-8411-e5accc2bce84_IMG_6558.JPG" />
+    <None Include="wwwroot\multipleFileUpload\4011990a-5f9d-4cac-8115-4e8185026529_IMG_6557.JPG" />
+    <None Include="wwwroot\multipleFileUpload\4f76daa7-7f8a-4365-b0ef-0c248d11801d_IMG_6557.JPG" />
+    <None Include="wwwroot\multipleFileUpload\70205020-f950-4881-aad0-be0114f6d104_IMG_6558.JPG" />
+    <None Include="wwwroot\multipleFileUpload\71e85f92-33ec-41f3-974a-411d4f91cd1a_acebb535-9070-409c-9efa-8b0a120237f5.jpg" />
+    <None Include="wwwroot\multipleFileUpload\72a8d71d-4011-4723-9ca1-a6e3f1dc5b6e_acebb535-9070-409c-9efa-8b0a120237f5.jpg" />
+    <None Include="wwwroot\multipleFileUpload\82ad9551-7a1c-4ac0-8de8-c133b2c615ca_IMG_6558.JPG" />
+    <None Include="wwwroot\multipleFileUpload\852e0f9a-5aad-4f58-94b2-96d16096af15_IMG_6558.JPG" />
+    <None Include="wwwroot\multipleFileUpload\9128353d-fa40-4c92-b2ee-1246f9b2b8d3_IMG_6557.JPG" />
+    <None Include="wwwroot\multipleFileUpload\920fb2f1-d911-4704-9473-2cd3ece24e75_IMG_6536.JPG" />
+    <None Include="wwwroot\multipleFileUpload\b913afd7-d536-4e5f-85c4-ac58cf7c9a68_IMG_6537.JPG" />
+    <None Include="wwwroot\multipleFileUpload\e101f038-20d4-4360-b790-299c0ddee069_IMG_6536.JPG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
