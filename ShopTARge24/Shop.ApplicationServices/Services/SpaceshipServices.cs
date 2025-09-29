@@ -74,8 +74,18 @@ namespace Shop.ApplicationServices.Services
         {             
             var result = await _context.SpaceShips
                 .FirstOrDefaultAsync(x => x.Id == id);
-            if (result != null)
-            {
+                  if (result != null)
+                    {
+                  var images = await _context.FileToApis
+                    .Where(x => x.SpaceShipId == id)
+                    .Select(y => new FileToApiDto
+                  {
+                      ImageId = y.Id,
+                      ExistingFilePath = y.ExistingFilePath,
+                      SpaceShipId = y.SpaceShipId
+                  }).ToArrayAsync();
+
+                await _fileServices.RemoveImagesFromApi(images);
                 _context.SpaceShips.Remove(result);
                 await _context.SaveChangesAsync();
             }
