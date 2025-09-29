@@ -121,7 +121,6 @@ namespace ShopTARge24.Controllers
             if (spaceship == null) 
                 {
                 return RedirectToAction(nameof(Index));
-
                 }
 
             return RedirectToAction(nameof(Index));
