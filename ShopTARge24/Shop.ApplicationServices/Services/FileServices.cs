@@ -28,9 +28,9 @@ namespace Shop.ApplicationServices.Services
 
             if (dto.Files != null && dto.Files.Count > 0)
             { 
-               if(!Directory.Exists(_webHost.ContentRootPath + "wwwroot\\multipleFileUpload\\"))
+               if(!Directory.Exists(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"))
                 {
-                    Directory.CreateDirectory(_webHost.ContentRootPath + "wwwroot\\multipleFileUpload\\");
+                    Directory.CreateDirectory(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\");
                 }
                 foreach (var file in dto.Files)
                 {
@@ -56,22 +56,25 @@ namespace Shop.ApplicationServices.Services
             }
         }
 
-        public async Task<FileToApiDto> RemoveImageFromApi(FileToApiDto dto)
+        public async Task<FilesToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             //kui soovin kustutada pilti, siis pean läbi id leidma pildi
             var imageId = await _context.FileToApis.FirstOrDefaultAsync(x => x.Id == dto.ImageId);
 
             //kus asuvad pildid, mida hakatakse kustutama
-            string filePath = _webHost.ContentRootPath + "\\wwwroot\\" + imageId.ExistingFilePath;
+            var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\" 
+                + imageId.ExistingFilePath;
 
             if(File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
 
+         
+
             _context.FileToApis.Remove(imageId);
             await _context.SaveChangesAsync();
-            return dto;
+            return null;
         }
 
     }
