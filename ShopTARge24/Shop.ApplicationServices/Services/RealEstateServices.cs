@@ -11,8 +11,7 @@ namespace Shop.ApplicationServices.Services
     public class RealEstateServices : IRealEstateServices
     {
         private readonly ShopContext _context;
-        public RealEstateServices(ShopContext context,
-            )
+        public RealEstateServices(ShopContext context)
         {
             _context = context;
         }
@@ -69,6 +68,12 @@ namespace Shop.ApplicationServices.Services
             _context.RealEstates.Update(realEstate);
             await _context.SaveChangesAsync();
 
+            return realEstate;
+        }
+
+        public async Task<RealEstate> Details(Guid id)
+        {
+            var realEstate = await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
             return realEstate;
         }
     }

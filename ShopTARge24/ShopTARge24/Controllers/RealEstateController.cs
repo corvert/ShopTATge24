@@ -24,14 +24,18 @@ namespace ShopTARge24.Controllers
                 Area = x.Area,
                 Location = x.Location,
                 RoomNumber = x.RoomNumber,
-                BuildingType = x.BuildingType
+                BuildingType = x.BuildingType,
+               CreatedAt = x.CreatedAt,
+
+
             });
-            return View();
+            return View(result);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
-            RealEstateIndexViewModel realEstate = new();
+            RealEstateCreateUpdateViewModel realEstate = new();
             return View("CreateUpdate", realEstate);
         }
 
@@ -45,8 +49,8 @@ namespace ShopTARge24.Controllers
                 Location = vm.Location,
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
-                CreatedAt = vm.CreatedAt,
-                ModifiedAt = vm.ModifiedAt
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
             };
             var realEsate = await _realEstateServices.Create(dto);
             if(realEsate != null) {
