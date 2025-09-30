@@ -12,5 +12,9 @@ namespace Shop.Core.ServiceInterface
     {
         Task<RealEstate> Create(RealEstateDto dto);
         Task<RealEstate> DetailAsync(Guid id);
+        Task<RealEstate> Delete(Guid id);
+        Task<RealEstate> Update(RealEstateDto dto);
+        Task<RealEstate> Details(Guid id);
+        
     }
 }

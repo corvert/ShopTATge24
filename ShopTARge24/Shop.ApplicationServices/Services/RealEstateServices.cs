@@ -11,7 +11,8 @@ namespace Shop.ApplicationServices.Services
     public class RealEstateServices : IRealEstateServices
     {
         private readonly ShopContext _context;
-        public RealEstateServices(ShopContext context)
+        public RealEstateServices(ShopContext context,
+            )
         {
             _context = context;
         }
@@ -38,6 +39,36 @@ namespace Shop.ApplicationServices.Services
         public async Task<RealEstate> DetailAsync(Guid id)
         {
             var realEstate = await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
+            return realEstate;
+        }
+
+
+        public async Task<RealEstate> Delete(Guid id)
+        {
+            var realEsate = await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
+            if (realEsate != null)
+
+            {
+                _context.RealEstates.Remove(realEsate);
+                await _context.SaveChangesAsync();
+            }
+            return realEsate;
+        }
+
+        public async Task<RealEstate> Update(RealEstateDto dto)
+        {
+            RealEstate realEstate = new RealEstate();
+            realEstate.Id = dto.Id;
+            realEstate.Area = dto.Area;
+            realEstate.Location = dto.Location;
+            realEstate.RoomNumber = dto.RoomNumber;
+            realEstate.BuildingType = dto.BuildingType;
+            realEstate.CreatedAt = dto.CreatedAt;
+            realEstate.ModifiedAt = DateTime.Now;
+
+            _context.RealEstates.Update(realEstate);
+            await _context.SaveChangesAsync();
+
             return realEstate;
         }
     }
