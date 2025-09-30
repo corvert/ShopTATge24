@@ -1,1 +1,38 @@
-﻿RealEstate test
+﻿@model IEnumerable<ShopTARge24.Models.RealEstates.RealEstateIndexViewModel>
+
+	<div>
+		<a asp-action="create" asp-controller="RealEstate" type="submit" class="btn btn-primary">Create</a>
+	</div>
+
+	<h1 class="h1">
+		Real Estate
+	</h1>
+	<form method="post">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">Nr</th>
+					<th scope="col">Area</th>
+					<th scope="col">Location</th>
+					<th scope="col">RoomNumber</th>
+					<th scope="col">BuildingType</th>
+					<th scope="col">CreatedAt</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				@{int rowNr = 0;}
+				@foreach(var realEstate in Model)
+				{
+				<tr>
+					<td>@{rowNr++;} @rowNr</td>
+					<td>@realEstate.Area</td>
+					<td>@realEstate.Location</td>
+					<td>@realEstate.RoomNumber</td>
+					<td>@realEstate.BuildingType</td>
+					<td>@realEstate.CreatedAt</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</form>
