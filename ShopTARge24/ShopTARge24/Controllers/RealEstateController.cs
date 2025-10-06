@@ -50,8 +50,17 @@ namespace ShopTARge24.Controllers
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
                 CreatedAt = DateTime.Now,
-                ModifiedAt = DateTime.Now
+                ModifiedAt = DateTime.Now,
+                Files = vm.Files,
+                Image = vm.Image.Select(x=> new FileToDatabaseDto
+                {
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId
+                }).ToArray()
             };
+
             var realEsate = await _realEstateServices.Create(dto);
             if(realEsate != null) {
                 return RedirectToAction(nameof(Index));

@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+using Shop.Core.Domain;
+
 namespace Shop.Core.Dto
 {
     public class RealEstateDto
@@ -8,7 +11,10 @@ namespace Shop.Core.Dto
         public string? Location { get; set; }
         public int? RoomNumber { get; set; }
         public string? BuildingType { get; set; }
+        public List<IFormFile>? Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> Image { get; set; } = new List<FileToDatabaseDto>();
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
+        
     }
 }
