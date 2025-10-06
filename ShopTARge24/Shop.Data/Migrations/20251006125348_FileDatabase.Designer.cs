@@ -12,8 +12,8 @@ using Shop.Data;
 namespace Shop.Data.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20251006080405_FileToDatabase")]
-    partial class FileToDatabase
+    [Migration("20251006125348_FileDatabase")]
+    partial class FileDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
