@@ -94,5 +94,10 @@ namespace Shop.ApplicationServices.Services
 
         }
 
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+
+        }
+
     }
 }
