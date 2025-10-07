@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
 using ShopTARge24.Models.RealEstates;
+using ShopTARge24.Models.SpaceShips;
 
 namespace ShopTARge24.Controllers
 {
@@ -25,7 +27,7 @@ namespace ShopTARge24.Controllers
                 Location = x.Location,
                 RoomNumber = x.RoomNumber,
                 BuildingType = x.BuildingType,
-               CreatedAt = x.CreatedAt,
+                CreatedAt = x.CreatedAt,
 
 
             });
@@ -77,6 +79,9 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+
+            RealEstateImageViewModel[] images = await NewMethod(id);
+
             var vm = new RealEstateDeleteDetailsViewModel();
 
             vm.Id = realEsate.Id;
@@ -86,11 +91,14 @@ namespace ShopTARge24.Controllers
             vm.BuildingType = realEsate.BuildingType;
             vm.CreatedAt = realEsate.CreatedAt;
             vm.ModifiedAt = realEsate.ModifiedAt;
+            vm.Images.AddRange(images);
             vm.ShowDeleteBtn = true;
 
 
             return View("DeleteDetails", vm);
         }
+
+     
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmation(Guid id)
@@ -113,6 +121,9 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+
+            RealEstateImageViewModel[] images = await NewMethod(id);
+
             var vm = new RealEstateCreateUpdateViewModel();
             vm.Id = realEsate.Id;
             vm.Area = realEsate.Area;
@@ -121,6 +132,7 @@ namespace ShopTARge24.Controllers
             vm.BuildingType = realEsate.BuildingType;
             vm.CreatedAt = realEsate.CreatedAt;
             vm.ModifiedAt = realEsate.ModifiedAt;
+            vm.Image.AddRange(images);
             return View("CreateUpdate", vm);
         }
 
@@ -153,6 +165,9 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+
+            RealEstateImageViewModel[] images = await NewMethod(id);
+
             var vm = new RealEstateDeleteDetailsViewModel();
 
             vm.Id = realEstate.Id;
@@ -162,10 +177,25 @@ namespace ShopTARge24.Controllers
             vm.BuildingType = realEstate.BuildingType;
             vm.CreatedAt = realEstate.CreatedAt;
             vm.ModifiedAt = realEstate.ModifiedAt;
+            vm.Images.AddRange(images);
             vm.ShowDeleteBtn = false;
 
 
             return View("DeleteDetails", vm);
+        }
+
+        private async Task<RealEstateImageViewModel[]> NewMethod(Guid id)
+        {
+            return await _context.FileToDatabase
+               .Where(x => x.RealEstateId == id)
+               .Select(y => new RealEstateImageViewModel
+               {
+                   Id = y.Id,
+                   RealEstateId = y.Id,
+                   ImageTitle = y.ImageTitle,
+                   ImageData = y.ImageData,
+                   Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+               }).ToArrayAsync();
         }
     }
 }
