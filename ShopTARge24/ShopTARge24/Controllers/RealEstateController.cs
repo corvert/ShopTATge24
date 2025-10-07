@@ -80,7 +80,7 @@ namespace ShopTARge24.Controllers
                 return NotFound();
             }
 
-            RealEstateImageViewModel[] images = await NewMethod(id);
+            RealEstateImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new RealEstateDeleteDetailsViewModel();
 
@@ -122,7 +122,7 @@ namespace ShopTARge24.Controllers
                 return NotFound();
             }
 
-            RealEstateImageViewModel[] images = await NewMethod(id);
+            RealEstateImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new RealEstateCreateUpdateViewModel();
             vm.Id = realEsate.Id;
@@ -147,7 +147,16 @@ namespace ShopTARge24.Controllers
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
                 CreatedAt = vm.CreatedAt,
-                ModifiedAt = DateTime.Now
+                ModifiedAt = DateTime.Now,
+                Files = vm.Files,
+                Image = vm.Image.Select(x => new FileToDatabaseDto
+                {
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId
+                }).ToArray()
+
             };
             var result = await _realEstateServices.Update(dto);
             if (result != null)
@@ -166,7 +175,7 @@ namespace ShopTARge24.Controllers
                 return NotFound();
             }
 
-            RealEstateImageViewModel[] images = await NewMethod(id);
+            RealEstateImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new RealEstateDeleteDetailsViewModel();
 
@@ -184,7 +193,7 @@ namespace ShopTARge24.Controllers
             return View("DeleteDetails", vm);
         }
 
-        private async Task<RealEstateImageViewModel[]> NewMethod(Guid id)
+        private async Task<RealEstateImageViewModel[]> FilesFromDatabase(Guid id)
         {
             return await _context.FileToDatabase
                .Where(x => x.RealEstateId == id)
