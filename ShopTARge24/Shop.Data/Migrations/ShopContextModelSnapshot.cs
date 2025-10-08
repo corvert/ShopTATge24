@@ -23,7 +23,6 @@ namespace Shop.Data.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Shop.Core.Domain.Kindergarten", b =>
-            modelBuilder.Entity("Shop.Core.Domain.FileToDatabase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,64 +52,6 @@ namespace Shop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kindergartens");
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ImageTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RealEstateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileToDatabase");
-                });
-
-            modelBuilder.Entity("Shop.Core.Domain.FilesToApi", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ExistingFilePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("SpaceShipId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileToApis");
-                });
-
-            modelBuilder.Entity("Shop.Core.Domain.RealEstate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double?>("Area")
-                        .HasColumnType("float");
-
-                    b.Property<string>("BuildingType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RealEstates");
                 });
 
             modelBuilder.Entity("Shop.Core.Domain.SpaceShips", b =>

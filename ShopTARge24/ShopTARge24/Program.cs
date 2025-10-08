@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Shop.ApplicationServices.Services;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
@@ -11,8 +10,6 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
 builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
-builder.Services.AddScoped<IFileServices, FileServices>();
-builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
 
 builder.Services.AddDbContext<ShopContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -33,9 +30,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-app.UseStaticFiles();
-
 
 app.MapControllerRoute(
     name: "default",

@@ -8,19 +8,13 @@ using Shop.Data;
 namespace Shop.ApplicationServices.Services
 {
     public class SpaceshipServices : ISpaceshipServices
-
-        
     {
         private readonly ShopContext _context;
-        private readonly IFileServices _fileServices;
 
         //konstruktor
-        public SpaceshipServices(
-            ShopContext context,
-            IFileServices fileServices)
+        public SpaceshipServices(ShopContext context)
         {
             _context = context;
-            _fileServices = fileServices;
         }
 
         public async Task<SpaceShips> Create(SpaceShipDto dto)
@@ -34,7 +28,6 @@ namespace Shop.ApplicationServices.Services
             spaceShips.EnginePower = dto.EnginePower;
             spaceShips.CreatedAt = DateTime.Now;
             spaceShips.ModifiedAt = DateTime.Now;
-            _fileServices.FilesToApi(dto, spaceShips);
             
             await _context.SpaceShips.AddAsync(spaceShips);
             await _context.SaveChangesAsync();
@@ -53,8 +46,6 @@ namespace Shop.ApplicationServices.Services
             spaceShips.EnginePower = dto.EnginePower;
             spaceShips.CreatedAt = dto.CreatedAt;
             spaceShips.ModifiedAt = DateTime.Now;
-            _fileServices.FilesToApi(dto, spaceShips);
-
 
             _context.SpaceShips.Update(spaceShips);
             await _context.SaveChangesAsync();
@@ -74,18 +65,8 @@ namespace Shop.ApplicationServices.Services
         {             
             var result = await _context.SpaceShips
                 .FirstOrDefaultAsync(x => x.Id == id);
-                  if (result != null)
-                    {
-                  var images = await _context.FileToApis
-                    .Where(x => x.SpaceShipId == id)
-                    .Select(y => new FileToApiDto
-                  {
-                      ImageId = y.Id,
-                      ExistingFilePath = y.ExistingFilePath,
-                      SpaceShipId = y.SpaceShipId
-                  }).ToArrayAsync();
-
-                await _fileServices.RemoveImagesFromApi(images);
+            if (result != null)
+            {
                 _context.SpaceShips.Remove(result);
                 await _context.SaveChangesAsync();
             }
