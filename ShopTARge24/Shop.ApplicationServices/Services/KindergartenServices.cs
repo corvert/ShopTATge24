@@ -9,10 +9,13 @@ namespace Shop.ApplicationServices.Services
     public class KindergartenServices : IKindergartenServices
     {
         private readonly ShopContext _context;
+        private readonly IFileServices _fileServices;
 
-        public KindergartenServices(ShopContext context)
+        public KindergartenServices(
+            ShopContext context, IFileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         public async Task<Kindergarten> Create(KindergartenDto dto)
@@ -25,6 +28,7 @@ namespace Shop.ApplicationServices.Services
             kindergarten.TeacherName = dto.TeacherName;
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, kindergarten);
 
             await _context.Kindergartens.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
