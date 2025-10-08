@@ -53,6 +53,12 @@ else
 				@Html.DisplayFor(model => model.UpdatedAt)
 			</div>
 		</dl>
+
+	@foreach (var images in Model.Image)
+	{
+		<partial name="_Images" model="images" />
+
+	}
 		<hr />
 
 		

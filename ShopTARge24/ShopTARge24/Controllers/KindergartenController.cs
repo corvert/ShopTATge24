@@ -44,7 +44,19 @@ namespace ShopTARge24.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(KindergartenCreateUpdateViewModel vm)
         {
-            var dto = new KindergartenDto()
+            var dto = ToKindergartenDto(vm);
+
+            var result = await _kindergartenServices.Create(dto);
+            if (result != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        private static KindergartenDto ToKindergartenDto(KindergartenCreateUpdateViewModel vm)
+        {
+            return new KindergartenDto()
             {
                 Id = vm.Id,
                 GroupName = vm.GroupName,
@@ -52,15 +64,20 @@ namespace ShopTARge24.Controllers
                 KindergartenName = vm.KindergartenName,
                 TeacherName = vm.TeacherName,
                 CreatedAt = vm.CreatedAt,
-                UpdatedAt = vm.UpdatedAt
+                UpdatedAt = vm.UpdatedAt,
+                Files = vm.Files,
+
+
+
+                FileToApiDtos = vm.Image.Select(x => new FileToApiDto
+                {
+                    ImageId = x.ImageId,
+                    ExistingFilePath = x.FilePath,
+                    KindergartenId = x.KindergartenId
+                }).ToList()
+
 
             };
-            var result = await _kindergartenServices.Create(dto);
-            if (result != null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
