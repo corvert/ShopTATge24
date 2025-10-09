@@ -8,6 +8,7 @@ namespace Shop.Core.ServiceInterface
     {
        
         void KGFilesToApi(KindergartenDto dto, Kindergarten domain);
-
+        Task<KGFilesToApi> RemoveImageFromApi(KGFileToApiDto dto);
+        Task<List<KGFilesToApi>> RemoveImagesFromApi(KGFileToApiDto[] images);
     }
 }

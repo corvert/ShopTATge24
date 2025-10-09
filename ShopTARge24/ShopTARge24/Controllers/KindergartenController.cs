@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Shop.ApplicationServices.Services;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
@@ -10,11 +12,13 @@ namespace ShopTARge24.Controllers
     {
         private readonly ShopContext _context;
         private readonly IKindergartenServices _kindergartenServices;
+        private readonly IFileServices _fileServices;
 
-        public KindergartenController(ShopContext context, IKindergartenServices kindergartenServices)
+        public KindergartenController(ShopContext context, IKindergartenServices kindergartenServices, IFileServices fileServices)
         {
             _context = context;
             _kindergartenServices = kindergartenServices;
+            _fileServices = fileServices;
         }
         public IActionResult Index()
         {
@@ -69,7 +73,7 @@ namespace ShopTARge24.Controllers
 
 
 
-                FileToApiDtos = vm.Image.Select(x => new KGFileToApiDto
+                KGFileToApiDtos = vm.Image.Select(x => new KGFileToApiDto
                 {
                     ImageId = x.ImageId,
                     ExistingFilePath = x.FilePath,
@@ -88,6 +92,7 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+            KindergratenImageViewModel[] images = await GetKGImages(id);
             var vm = new KindergartenDeleteDetailsViewModel();
 
             vm.Id = kindergarten.Id;
@@ -123,6 +128,8 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+            KindergratenImageViewModel[] images = await GetKGImages(id);
+
             var vm = new KindergartenCreateUpdateViewModel();
             vm.Id = kindergarten.Id;
             vm.GroupName = kindergarten.GroupName;
@@ -131,7 +138,20 @@ namespace ShopTARge24.Controllers
             vm.TeacherName = kindergarten.TeacherName;
             vm.CreatedAt = kindergarten.CreatedAt;
             vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(images);
             return View("CreateUpdate", vm);
+        }
+
+        private async Task<KindergratenImageViewModel[]> GetKGImages(Guid id)
+        {
+            return await _context.KGFileToApis
+                .Where(x => x.KindergartenId == id)
+                .Select(x => new KindergratenImageViewModel
+
+                {
+                    FilePath = x.ExistingFilePath,
+                    ImageId = x.Id
+                }).ToArrayAsync();
         }
 
         [HttpPost]
@@ -145,7 +165,15 @@ namespace ShopTARge24.Controllers
                 KindergartenName = vm.KindergartenName,
                 TeacherName = vm.TeacherName,
                 CreatedAt = vm.CreatedAt,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                Files = vm.Files,
+                KGFileToApiDtos = vm.Image
+                .Select(x => new KGFileToApiDto
+                {
+                    ImageId = x.ImageId,
+                    ExistingFilePath = x.FilePath,
+                    KindergartenId = x.KindergartenId
+                }).ToArray()
             };
             var result = await _kindergartenServices.Update(dto);
             if (result != null)
@@ -163,6 +191,9 @@ namespace ShopTARge24.Controllers
             {
                 return NotFound();
             }
+
+            KindergratenImageViewModel[] images = await GetKGImages(id);
+
             var vm = new KindergartenDeleteDetailsViewModel();
 
             vm.Id = kindergarten.Id;
@@ -172,10 +203,33 @@ namespace ShopTARge24.Controllers
             vm.TeacherName = kindergarten.TeacherName;
             vm.CreatedAt = kindergarten.CreatedAt;
             vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(images);
             vm.ShowDeleteBtn = false;
 
 
             return View("DeleteDetails", vm);
+        }
+
+        public async Task<IActionResult> RemoveImage(KindergratenImageViewModel vm)
+        {
+            //tuleb ühendada dto ja vm
+            //Id peab saama edastatud andmebaasi
+            var dto = new KGFileToApiDto()
+            {
+                ImageId = vm.ImageId,
+              
+            };
+
+            //kutsu välja vastav serviceclassi meetod
+            var image = await _fileServices.RemoveImageFromApi(dto);
+
+            //kui on null, siis vii Index vaatesse
+            if (image == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

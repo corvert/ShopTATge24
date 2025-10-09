@@ -46,9 +46,23 @@ namespace Shop.ApplicationServices.Services
         public async Task<Kindergarten> Delete(Guid id)
         {
             var kindergarten = await _context.Kindergartens.FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.KGFileToApis
+                .Where(x => x.KindergartenId == id)
+                .Select(y => new KGFileToApiDto
+                {
+                    ImageId = y.Id,
+                    KindergartenId = y.KindergartenId,
+                    ExistingFilePath = y.ExistingFilePath
+
+                }
+                ).ToArrayAsync();
+            await _fileServices.RemoveImagesFromApi(images);
+
             if (kindergarten != null)
 
             {
+                
                 _context.Kindergartens.Remove(kindergarten);
                 await _context.SaveChangesAsync();
             }

@@ -11,7 +11,7 @@ namespace Shop.Core.Dto
         public string KindergartenName { get; set; }
         public string TeacherName { get; set; }
         public List<IFormFile> Files { get; set; }
-        public IEnumerable<KGFileToApiDto> FileToApiDtos { get; set; }
+        public IEnumerable<KGFileToApiDto> KGFileToApiDtos { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
