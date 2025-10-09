@@ -102,6 +102,7 @@ namespace ShopTARge24.Controllers
             vm.TeacherName = kindergarten.TeacherName;
             vm.CreatedAt = kindergarten.CreatedAt;
             vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(images);
             vm.ShowDeleteBtn = true;
 
 
