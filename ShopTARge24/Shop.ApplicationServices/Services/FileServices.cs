@@ -23,39 +23,7 @@ namespace Shop.ApplicationServices.Services
             _context = context;
         }
 
-        public void FilesToApi(SpaceShipDto dto, SpaceShips domain)
-        {
 
-
-            if (dto.Files != null && dto.Files.Count > 0)
-            {
-                if (!Directory.Exists(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"))
-                {
-                    Directory.CreateDirectory(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\");
-                }
-                foreach (var file in dto.Files)
-                {
-                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-
-                        FilesToApi path = new FilesToApi
-                        {
-                            Id = Guid.NewGuid(),
-                            ExistingFilePath = uniqueFileName,
-                            SpaceShipId = domain.Id
-                        };
-
-
-                        _context.FileToApis.AddAsync(path);
-                    }
-                }
-            }
-        }
         public void KGFilesToApi(KindergartenDto dto, Kindergarten domain)
         {
 
@@ -76,7 +44,7 @@ namespace Shop.ApplicationServices.Services
                     {
                         file.CopyTo(fileStream);
 
-                        KGFileToApis path = new KGFileToApis
+                        KGFilesToApi path = new KGFilesToApi
                         {
                             Id = Guid.NewGuid(),
                             ExistingFilePath = uniqueFileName,
@@ -90,10 +58,10 @@ namespace Shop.ApplicationServices.Services
             }
         }
 
-        public async Task<FilesToApi> RemoveImageFromApi(FileToApiDto dto)
+        public async Task<KGFilesToApi> RemoveImageFromApi(KGFileToApiDto dto)
         {
             //kui soovin kustutada pilti, siis pean läbi id leidma pildi
-            var imageId = await _context.FileToApis.FirstOrDefaultAsync(x => x.Id == dto.ImageId);
+            var imageId = await _context.KGFileToApis.FirstOrDefaultAsync(x => x.Id == dto.ImageId);
             //kus asuvad pildid, mida hakatakse kustutama
             var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
                 + imageId.ExistingFilePath;
@@ -102,16 +70,16 @@ namespace Shop.ApplicationServices.Services
             {
                 File.Delete(filePath);
             }
-            _context.FileToApis.Remove(imageId);
+            _context.KGFileToApis.Remove(imageId);
             await _context.SaveChangesAsync();
             return null;
         }
 
-        public async Task<List<FilesToApi>> RemoveImagesFromApi(FileToApiDto[] dtos)
+        public async Task<List<KGFilesToApi>> RemoveImagesFromApi(KGFileToApiDto[] dtos)
         {
             foreach (var dto in dtos)
             {
-                var imageId = await _context.FileToApis
+                var imageId = await _context.KGFileToApis
                     .FirstOrDefaultAsync(x => x.ExistingFilePath == dto.ExistingFilePath);
                 var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
                     + imageId.ExistingFilePath;
@@ -119,7 +87,7 @@ namespace Shop.ApplicationServices.Services
                 {
                     File.Delete(filePath);
                 }
-                _context.FileToApis.Remove(imageId);
+                _context.KGFileToApis.Remove(imageId);
                 await _context.SaveChangesAsync();
             }
 

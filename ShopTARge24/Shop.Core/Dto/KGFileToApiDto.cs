@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Shop.Core.Dto
 {
-    public class FileToApiDto
+    public class KGFileToApiDto
     {
         public Guid ImageId { get; set; }
         public string? ExistingFilePath { get; set; }
-        public Guid? SpaceshipId { get; set; }
+  
         public Guid? KindergartenId { get; set; }
     }
 }

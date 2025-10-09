@@ -28,7 +28,7 @@ namespace Shop.ApplicationServices.Services
             kindergarten.TeacherName = dto.TeacherName;
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
-            _fileServices.FilesToApi(dto, kindergarten);
+            _fileServices.KGFilesToApi(dto, kindergarten);
 
             await _context.Kindergartens.AddAsync(kindergarten);
             await _context.SaveChangesAsync();

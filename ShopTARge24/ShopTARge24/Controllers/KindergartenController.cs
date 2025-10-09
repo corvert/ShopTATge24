@@ -69,7 +69,7 @@ namespace ShopTARge24.Controllers
 
 
 
-                FileToApiDtos = vm.Image.Select(x => new FileToApiDto
+                FileToApiDtos = vm.Image.Select(x => new KGFileToApiDto
                 {
                     ImageId = x.ImageId,
                     ExistingFilePath = x.FilePath,
