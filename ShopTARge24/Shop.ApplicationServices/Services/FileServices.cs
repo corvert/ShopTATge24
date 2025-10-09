@@ -56,7 +56,7 @@ namespace Shop.ApplicationServices.Services
                 }
             }
         }
-        public void FilesToApi(KindergartenDto dto, Kindergarten domain)
+        public void KGFilesToApi(KindergartenDto dto, Kindergarten domain)
         {
 
 
@@ -76,7 +76,7 @@ namespace Shop.ApplicationServices.Services
                     {
                         file.CopyTo(fileStream);
 
-                        FilesToApi path = new FilesToApi
+                        KGFileToApis path = new KGFileToApis
                         {
                             Id = Guid.NewGuid(),
                             ExistingFilePath = uniqueFileName,
@@ -84,7 +84,7 @@ namespace Shop.ApplicationServices.Services
                         };
 
 
-                        _context.FileToApis.AddAsync(path);
+                        _context.KGFileToApis.AddAsync(path);
                     }
                 }
             }

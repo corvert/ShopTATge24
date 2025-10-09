@@ -22,6 +22,26 @@ namespace Shop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Shop.Core.Domain.FilesToApi", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExistingFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("KindergartenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SpaceShipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FilesToApi");
+                });
+
             modelBuilder.Entity("Shop.Core.Domain.Kindergarten", b =>
                 {
                     b.Property<Guid>("Id")
@@ -51,7 +71,7 @@ namespace Shop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kindergartens", (string)null);
+                    b.ToTable("Kindergartens");
                 });
 
             modelBuilder.Entity("Shop.Core.Domain.SpaceShips", b =>
@@ -83,7 +103,7 @@ namespace Shop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpaceShips", (string)null);
+                    b.ToTable("SpaceShips");
                 });
 #pragma warning restore 612, 618
         }
