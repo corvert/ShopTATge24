@@ -52,22 +52,23 @@ namespace Shop.ApplicationServices.Services
         {
             var kindergarten = await _context.Kindergartens.FirstOrDefaultAsync(x => x.Id == id);
 
-            var images = await _context.KGFileToApis
-                .Where(x => x.KindergartenId == id)
-                .Select(y => new KGFileToApiDto
-                {
-                    ImageId = y.Id,
-                    KindergartenId = y.KindergartenId,
-                    ExistingFilePath = y.ExistingFilePath
-
-                }
-                ).ToArrayAsync();
-            await _fileServices.RemoveImagesFromApi(images);
+           
 
             if (kindergarten != null)
 
             {
-                
+                var images = await _context.KGFileToDatabase
+               .Where(x => x.KindergartenId == id)
+               .Select(y => new KGFileToDatabaseDto
+               {
+                   Id = y.Id,
+                   KindergartenId = y.KindergartenId,
+                   ImageData = y.ImageData,
+                   ImageTitle = y.ImageTitle
+               }
+               ).ToArrayAsync();
+                await _fileServices.RemoveImagesFromApi(images);
+
                 _context.Kindergartens.Remove(kindergarten);
                 await _context.SaveChangesAsync();
             }
@@ -84,6 +85,11 @@ namespace Shop.ApplicationServices.Services
             kindergarten.TeacherName = dto.TeacherName;
             kindergarten.CreatedAt = dto.CreatedAt;
             kindergarten.UpdatedAt = DateTime.Now;
+
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, kindergarten);
+            }
 
             _context.Kindergartens.Update(kindergarten);
             await _context.SaveChangesAsync();

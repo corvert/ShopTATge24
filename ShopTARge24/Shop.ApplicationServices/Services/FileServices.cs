@@ -1,6 +1,4 @@
-﻿
-using System.Xml;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Shop.Core.Domain;
 using Shop.Core.Dto;
@@ -153,5 +151,40 @@ namespace Shop.ApplicationServices.Services
                 }
             }
         }
+
+        public async Task<KGFileToDatabaseDto> RemoveImageFromApi(KGFileToDatabase dto)
+        {
+            var image = await _context.KGFileToDatabase.FirstOrDefaultAsync(x => x.Id == dto.Id);
+            if (image != null)
+            {
+                _context.KGFileToDatabase.Remove(image);
+                await _context.SaveChangesAsync();
+                // Optionally, map the removed entity to KGFileToDatabaseDto and return it
+                return new KGFileToDatabaseDto
+                {
+                    Id = image.Id,
+                    ImageTitle = image.ImageTitle,
+                    KindergartenId = image.KindergartenId
+                    // Add other properties as needed
+                };
+            }
+            return null;
+        }
+
+       
+
+        public async Task RemoveImagesFromApi(KGFileToDatabaseDto[] images)
+        {
+            foreach (var dto in images)
+            {
+                var image = await _context.KGFileToDatabase.FirstOrDefaultAsync(x => x.Id == dto.Id);
+                if (image != null)
+                {
+                    _context.KGFileToDatabase.Remove(image);
+                    await _context.SaveChangesAsync();
+                }
+            }
+}
+
     }
 }

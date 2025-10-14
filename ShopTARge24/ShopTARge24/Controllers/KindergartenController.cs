@@ -15,7 +15,10 @@ namespace ShopTARge24.Controllers
         private readonly IKindergartenServices _kindergartenServices;
         private readonly IFileServices _fileServices;
 
-        public KindergartenController(ShopContext context, IKindergartenServices kindergartenServices, IFileServices fileServices)
+        public KindergartenController(
+            ShopContext context, 
+            IKindergartenServices kindergartenServices, 
+            IFileServices fileServices)
         {
             _context = context;
             _kindergartenServices = kindergartenServices;
@@ -23,7 +26,6 @@ namespace ShopTARge24.Controllers
         }
         public IActionResult Index()
         {
-
 
             var result = _context.Kindergartens.Select(x => new KindergartenIndexViewModel
             {
@@ -115,6 +117,7 @@ namespace ShopTARge24.Controllers
         public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var kindergarten = await _kindergartenServices.Delete(id);
+
             if (kindergarten == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -157,7 +160,8 @@ namespace ShopTARge24.Controllers
                     ImageId = x.Id,
                     ImageTitle = x.ImageTitle,
                     ImageData = x.ImageData,
-                    KindergartenId = x.KindergartenId
+                    KindergartenId = x.KindergartenId,
+                    Image = string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(x.ImageData))
 
                 }).ToArrayAsync();
         }
@@ -223,9 +227,9 @@ namespace ShopTARge24.Controllers
         {
             //tuleb ühendada dto ja vm
             //Id peab saama edastatud andmebaasi
-            var dto = new KGFileToApiDto()
+            var dto = new KGFileToDatabase()
             {
-                ImageId = vm.ImageId,
+                Id = vm.ImageId,
               
             };
 
