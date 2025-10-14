@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shop.ApplicationServices.Services;
+using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
@@ -73,12 +74,13 @@ namespace ShopTARge24.Controllers
 
 
                 Files = vm.Files,
-                KGFileToApiDtos = vm.Image.Select(x => new KGFileToDatabase
+                Image = vm.Image.Select(x => new KGFileToDatabaseDto
                 {
-                    Id = x.Id,
+                    Id = x.ImageId,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
-                    RealEstateId = x.RealEstateId
+                    KindergartenId = x.KindergartenId
+
                 }).ToArray()
 
 
@@ -146,13 +148,17 @@ namespace ShopTARge24.Controllers
 
         private async Task<KindergratenImageViewModel[]> GetKGImages(Guid id)
         {
-            return await _context.KGFileToApis
+            return await _context.KGFileToDatabase
                 .Where(x => x.KindergartenId == id)
                 .Select(x => new KindergratenImageViewModel
 
                 {
-                    FilePath = x.ExistingFilePath,
-                    ImageId = x.Id
+                 
+                    ImageId = x.Id,
+                    ImageTitle = x.ImageTitle,
+                    ImageData = x.ImageData,
+                    KindergartenId = x.KindergartenId
+
                 }).ToArrayAsync();
         }
 
@@ -169,11 +175,12 @@ namespace ShopTARge24.Controllers
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = DateTime.Now,
                 Files = vm.Files,
-                KGFileToApiDtos = vm.Image
-                .Select(x => new KGFileToApiDto
+                Image = vm.Image
+                .Select(x => new KGFileToDatabaseDto
                 {
-                    ImageId = x.ImageId,
-                    ExistingFilePath = x.FilePath,
+                    Id = x.ImageId,
+                    ImageTitle = x.ImageTitle,
+                    ImageData = x.ImageData,
                     KindergartenId = x.KindergartenId
                 }).ToArray()
             };
