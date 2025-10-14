@@ -96,33 +96,33 @@ namespace Shop.ApplicationServices.Services
 
         }
 
-        //public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
-        //{
-        //    //toimub kontroll, kas on vähemalt üks fail või mitu
-        //    if (dto.Files != null && dto.Files.Count > 0)
-        //    {
-        //        //tuleb kasutada foreach et mitu faili üles laadida
-        //        foreach (var file in dto.Files)
-        //        {
-        //            //foreach sees tuleb kasutada using
-        //            using (var target = new MemoryStream())
-        //            {
-        //                FileToDatabase files = new FileToDatabase
-        //                {
-        //                    Id = Guid.NewGuid(),
-        //                    ImageTitle = file.FileName,
-        //                    RealEstateId = domain.Id
-        //                };
-        //                //andmed salvestada andmebaasi
-        //                file.CopyTo(target);
-        //                files.ImageData = target.ToArray();
+        public void UploadFilesToDatabase(KindergartenDto dto, Kindergarten domain)
+        {
+            //toimub kontroll, kas on vähemalt üks fail või mitu
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreach et mitu faili üles laadida
+                foreach (var file in dto.Files)
+                {
+                    //foreach sees tuleb kasutada using
+                    using (var target = new MemoryStream())
+                    {
+                        KGFilesToApi files = new KGFilesToApi
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            KindergartenId = domain.Id
+                        };
+                        //andmed salvestada andmebaasi
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
 
-        //                _context.FileToDatabase.Add(files);
+                        _context.KGFileToApis.Add(files);
 
-        //            }
+                    }
 
-        //        }
-        //    }
-        //}
+                }
+            }
+        }
     }
 }
