@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
@@ -29,11 +28,7 @@ namespace Shop.ApplicationServices.Services
             kindergarten.TeacherName = dto.TeacherName;
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
-
-            if (dto.Files != null)
-            {
-                _fileServices.UploadFilesToDatabase(dto, kindergarten);
-            }
+            _fileServices.KGFilesToApi(dto, kindergarten);
 
             await _context.Kindergartens.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
@@ -58,7 +53,7 @@ namespace Shop.ApplicationServices.Services
                 {
                     ImageId = y.Id,
                     KindergartenId = y.KindergartenId,
-                    
+                    ExistingFilePath = y.ExistingFilePath
 
                 }
                 ).ToArrayAsync();
