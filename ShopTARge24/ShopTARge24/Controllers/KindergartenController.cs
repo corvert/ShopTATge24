@@ -69,16 +69,17 @@ namespace ShopTARge24.Controllers
                 TeacherName = vm.TeacherName,
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = vm.UpdatedAt,
+              
+
+
                 Files = vm.Files,
-
-
-
-                KGFileToApiDtos = vm.Image.Select(x => new KGFileToApiDto
+                KGFileToApiDtos = vm.Image.Select(x => new KGFileToDatabase
                 {
-                    ImageId = x.ImageId,
-                    ExistingFilePath = x.FilePath,
-                    KindergartenId = x.KindergartenId
-                }).ToList()
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId
+                }).ToArray()
 
 
             };

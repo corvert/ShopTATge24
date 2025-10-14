@@ -102,6 +102,26 @@ namespace Shop.Data.Migrations
 
                     b.ToTable("SpaceShips");
                 });
+
+            modelBuilder.Entity("Shop.Core.Dto.KGFileToDatabase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("KindergartenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KGFileToDatabase");
+                });
 #pragma warning restore 612, 618
         }
     }

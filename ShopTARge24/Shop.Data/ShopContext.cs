@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Core.Domain;
+using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
 
 namespace Shop.Data
@@ -12,5 +13,6 @@ namespace Shop.Data
         public DbSet<SpaceShips> SpaceShips { get; set; }
         public DbSet<KGFilesToApi> KGFileToApis { get; set; }
         public DbSet<Kindergarten> Kindergartens { get; set; }
-        }
+        public DbSet<KGFileToDatabase> KGFileToDatabase { get; set; }
+    }
 }

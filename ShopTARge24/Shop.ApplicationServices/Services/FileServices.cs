@@ -124,5 +124,34 @@ namespace Shop.ApplicationServices.Services
         //        }
         //    }
         //}
+
+        public void UploadFilesToDatabase(KindergartenDto dto, Kindergarten domain)
+        {
+            //toimub kontroll, kas on vähemalt üks fail või mitu
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreach et mitu faili üles laadida
+                foreach (var file in dto.Files)
+                {
+                    //foreach sees tuleb kasutada using
+                    using (var target = new MemoryStream())
+                    {
+                        KGFileToDatabase files = new KGFileToDatabase
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            KindergartenId = domain.Id
+                        };
+                        //andmed salvestada andmebaasi
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.KGFileToDatabase.Add(files);
+
+                    }
+
+                }
+            }
+        }
     }
 }

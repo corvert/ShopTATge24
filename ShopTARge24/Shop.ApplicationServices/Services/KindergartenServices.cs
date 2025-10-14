@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Xml;
+using Microsoft.EntityFrameworkCore;
 using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
@@ -28,7 +29,11 @@ namespace Shop.ApplicationServices.Services
             kindergarten.TeacherName = dto.TeacherName;
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
-            _fileServices.KGFilesToApi(dto, kindergarten);
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, kindergarten);
+            }
+
 
             await _context.Kindergartens.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
