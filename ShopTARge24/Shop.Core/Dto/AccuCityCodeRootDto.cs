@@ -28,21 +28,21 @@ namespace Shop.Core.Dto
 
     public class RegionDto
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string LocalizedName { get; set; }
         public string EnglishName { get; set; }
     }
 
     public class CountryDto
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string LocalizedName { get; set; }
         public string EnglishName { get; set; }
     }
 
     public class AdministrativeAreaDto
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string LocalizedName { get; set; }
         public string EnglishName { get; set; }
         public int Level { get; set; }

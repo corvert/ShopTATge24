@@ -40,6 +40,15 @@ namespace ShopTARge24.Controllers
           
         }
 
+        //[HttpGet]
+        //public IActionResult GetRsult(AccuWeathersViewModel accuWeathersViewModel)
+        //{
+        //    var result = new AccuLocationWeatherResultDto();
+        //    result.CityName = accuWeathersViewModel.CityName;
+        //    _watherForecastServices.AccuWeatherResult(result);
+        //    return View(accuWeathersViewModel);
+        //}
+
 
     }
 }
