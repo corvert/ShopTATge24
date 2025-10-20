@@ -10,5 +10,12 @@ namespace Shop.Core.Dto
     {
         public string CityName { get; set; }
         public string CityCode { get; set; }
+        public double TempMinCelsius { get; set; }
+        public double TempMaxCelsius { get; set; }
+        public string EffectiveDate { get; set; }
+        public string WeatherText { get; set; }
+        public int Severity { get; set; }
+
+
     }
 }

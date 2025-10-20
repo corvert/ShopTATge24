@@ -15,8 +15,10 @@ namespace ShopTARge24.Controllers
         }
         public IActionResult Index()
         {
+         
             return View();
         }
+
 
         [HttpPost]
         public IActionResult SearchCity(AccuWeathersSearchViewModel model)
@@ -35,19 +37,21 @@ namespace ShopTARge24.Controllers
             dto.CityName = city;
 
             _watherForecastServices.AccuWeatherResult(dto);
+            AccuWeathersViewModel vm = new();
+            vm.CityName = dto.CityName;
+            vm.TempMinCelsius = dto.TempMinCelsius;
+            vm.TempMaxCelsius = dto.TempMaxCelsius;
+            vm.EffectiveDate = dto.EffectiveDate;
+            vm.WeatherText = dto.WeatherText;
+            vm.Severity = dto.Severity;
 
-            return View(dto);
+            return View(vm);
           
         }
 
-        //[HttpGet]
-        //public IActionResult GetRsult(AccuWeathersViewModel accuWeathersViewModel)
-        //{
-        //    var result = new AccuLocationWeatherResultDto();
-        //    result.CityName = accuWeathersViewModel.CityName;
-        //    _watherForecastServices.AccuWeatherResult(result);
-        //    return View(accuWeathersViewModel);
-        //}
+     
+
+
 
 
     }

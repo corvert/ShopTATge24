@@ -24,7 +24,23 @@ namespace Shop.ApplicationServices.Services
 
 
             }
-            return dto;
+            var weatherResponse = $"http://dataservice.accuweather.com/currentconditions/v1/{dto.CityCode}?apikey={apiKey}&metric=true";
+            using (var clientWeather = new HttpClient())
+            {
+                var httpResponse = await clientWeather.GetAsync(weatherResponse);
+                string jsonWeather = await httpResponse.Content.ReadAsStringAsync();
+                List<AccuLocationRootDto> weatherConditionData = 
+                    JsonSerializer.Deserialize<List<AccuLocationRootDto>>(jsonWeather);
+                dto.TempMinCelsius = weatherConditionData[0].Temperature.Metric.Value;
+                dto.TempMaxCelsius = weatherConditionData[0].Temperature.Metric.Value;
+                dto.EffectiveDate = weatherConditionData[0].LocalObservationDateTime;
+                dto.WeatherText = weatherConditionData[0].WeatherText;
+                dto.Severity = weatherConditionData[0].WeatherIcon;
+
+            }
+
+                return dto;
         }
+       
     }
 }
