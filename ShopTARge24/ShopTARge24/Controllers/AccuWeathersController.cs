@@ -1,32 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shop.Core.Dto;
-using Shop.Core.ServiceInterface;
+using ShopTARge24.Core.Dto;
+using ShopTARge24.Core.ServiceInterface;
 using ShopTARge24.Models.AccuWeathers;
 
 namespace ShopTARge24.Controllers
 {
     public class AccuWeathersController : Controller
     {
+        private readonly IWeatherForecastServices _weatherForecastServices;
 
-        private readonly IWeatherForecastServices _watherForecastServices;
-        public AccuWeathersController(IWeatherForecastServices watherForecastServices)
+        public AccuWeathersController
+            (
+                IWeatherForecastServices weatherForecastServices
+            )
         {
-            _watherForecastServices = watherForecastServices;
+            _weatherForecastServices = weatherForecastServices;
         }
+
+
         public IActionResult Index()
         {
-         
             return View();
         }
-
 
         [HttpPost]
         public IActionResult SearchCity(AccuWeathersSearchViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("City", "AccuWeathers", new {city = model.CityName});
+                return RedirectToAction("City", "AccuWeathers", new { city = model.CityName });
             }
+
             return View(model);
         }
 
@@ -36,23 +40,44 @@ namespace ShopTARge24.Controllers
             AccuLocationWeatherResultDto dto = new();
             dto.CityName = city;
 
-            _watherForecastServices.AccuWeatherResult(dto);
-            AccuWeathersViewModel vm = new();
-            vm.CityName = dto.CityName;
-            vm.TempMinCelsius = dto.TempMinCelsius;
-            vm.TempMaxCelsius = dto.TempMaxCelsius;
+            //_weatherForecastServices.AccuWeatherResult(dto);
+            _weatherForecastServices.AccuWeatherResultWebClient(dto);
+            AccuWeatherViewModel vm = new();
+            //vm.CityName = dto.CityName;
             vm.EffectiveDate = dto.EffectiveDate;
-            vm.WeatherText = dto.WeatherText;
+            vm.EffectiveEpochDate = dto.EffectiveEpochDate;
             vm.Severity = dto.Severity;
+            vm.Text = dto.Text;
+            vm.Category = dto.Category;
+            vm.EndDate = dto.EndDate;
+            vm.EndEpochDate = dto.EndEpochDate;
+            vm.DailyForecastsDate = dto.DailyForecastsDate;
+            vm.DailyForecastsEpochDate = dto.DailyForecastsEpochDate;
+
+            vm.TempMinValue = dto.TempMinValue;
+            vm.TempMinUnit = dto.TempMinUnit;
+            vm.TempMinUnitType = dto.TempMinUnitType;
+
+            vm.TempMaxValue = dto.TempMaxValue;
+            vm.TempMaxUnit = dto.TempMaxUnit;
+            vm.TempMaxUnitType = dto.TempMaxUnitType;
+
+            vm.DayIcon = dto.DayIcon;
+            vm.DayIconPhrase = dto.DayIconPhrase;
+            vm.DayHasPrecipitation = dto.DayHasPrecipitation;
+            vm.DayPrecipitationType = dto.DayPrecipitationType;
+            vm.DayPrecipitationIntensity = dto.DayPrecipitationIntensity;
+
+            vm.NightIcon = dto.NightIcon;
+            vm.NightIconPhrase = dto.NightIconPhrase;
+            vm.NightHasPrecipitation = dto.NightHasPrecipitation;
+            vm.NightPrecipitationType = dto.NightPrecipitationType;
+            vm.NightPrecipitationIntensity = dto.NightPrecipitationIntensity;
+
+            vm.MobileLink = dto.MobileLink;
+            vm.Link = dto.Link;
 
             return View(vm);
-          
         }
-
-     
-
-
-
-
     }
 }

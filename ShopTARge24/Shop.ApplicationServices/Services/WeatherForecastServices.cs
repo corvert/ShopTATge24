@@ -19,7 +19,7 @@ namespace ShopTARge24.ApplicationServices.Services
         {
 
             //https://developer.accuweather.com/core-weather/text-search?lang=shell#city-search
-            
+
             //var response = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={apiKey}&q={dto.CityName}";
             var baseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/";
 
@@ -97,7 +97,7 @@ namespace ShopTARge24.ApplicationServices.Services
 
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto)
         {
-           // string accuApiKey = "";
+            // string accuApiKey = "";
             string url = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={apiKey}&q={dto.CityName}";
 
             using (WebClient client = new WebClient())
@@ -111,7 +111,7 @@ namespace ShopTARge24.ApplicationServices.Services
                 dto.CityCode = accuResult[0].Key;
             }
 
-            string urlWeather 
+            string urlWeather
                 = $"https://dataservice.accuweather.com/forecasts/v1/daily/1day/{dto.CityCode}?apikey={apiKey}&metric=true";
 
             using (WebClient client = new WebClient())
