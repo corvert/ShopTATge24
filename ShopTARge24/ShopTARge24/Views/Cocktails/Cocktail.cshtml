@@ -1,59 +1,85 @@
 ﻿@model ShopTARge24.Models.Cocktails.CocktailViewModel
 
-<div class="container">
-	<h2>Cocktail Details</h2>
-	<h3>@Html.DisplayFor(model => model.strDrink)</h3>
-	<hr />
-	<dl class="row text-dark">
-		<div>
-			<dt class="col-sm-2">
-				Category:
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.strCategory)
-			</dd>
-		</div>
-		<div>
-			<dt class="col-sm-2">
-				Alcoholic:
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.strAlcoholic)
-			</dd>
-		</div>
-		<div>
-			<dt class="col-sm-2">
-				Glass:
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.strGlass)
-			</dd>
-		</div>
-		<div>
-			<dt class="col-sm-2">
-				Instructions:
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.strInstructions)
-			</dd>
-		</div>
-		<div>
-			<dt class="col-sm-2">
-				Ingredients:
-			</dt>
-			<dd class="col-sm-10">
-				<ul>
-					@for (int i = 1; i <= 15; i++)
-					{
-						var ingredient = Model.GetType().GetProperty($"strIngredient{i}")?.GetValue(Model, null) as string;
-						var measure = Model.GetType().GetProperty($"strMeasure{i}")?.GetValue(Model, null) as string;
-						if (!string.IsNullOrEmpty(ingredient))
+@if (!string.IsNullOrEmpty(Model.idDrink))
+{
+	<div class="container">
+		<h3>@Html.DisplayFor(model => model.strDrink)</h3>
+		<hr />
+		<dl class="row text-dark">
+			<div>
+				<dt class="col-sm-2">
+					Category:
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.strCategory)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm-2">
+					Alcoholic:
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.strAlcoholic)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm-2">
+					Glass:
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.strGlass)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm-2">
+					Instructions:
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.strInstructions)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm-2">
+					Ingredients:
+				</dt>
+				<dd class="col-sm-10">
+					<ul>
+						@for (int i = 1; i <= 15; i++)
 						{
-							<li>@ingredient - @measure</li>
+							var ingredient = Model.GetType().GetProperty($"strIngredient{i}")?.GetValue(Model, null) as string;
+							var measure = Model.GetType().GetProperty($"strMeasure{i}")?.GetValue(Model, null) as string;
+							if (!string.IsNullOrEmpty(ingredient))
+							{
+								<li>@ingredient - @measure</li>
+							}
 						}
+					</ul>
+				</dd>
+
+				<dt class="col-sm-2">
+				
+				</dt>
+				<dd class="col-sm-10">
+					@if (!string.IsNullOrEmpty(Model.strDrinkThumb))
+					{
+						<img src="@Model.strDrinkThumb" alt="@Model.strDrink" class="img-fluid" style="max-width: 300px;" />
 					}
-				</ul>
-			</dd>
-		</div>
-	</dl>
-</div>
+				</dd>
+			</div>
+			
+		</dl>
+		<form method="post" asp-action="Index">
+			<button type="submit" class="btn btn-primary mt-3">Back</button>
+		</form>
+	</div>
+}
+else
+{
+	<div class="text-center">
+	<img src="~/1581099611064.jpg" width="300" height="480" />
+	<h1>@Model.strDrink cocktail not found </h1>
+	<form method="post" asp-action="Index">
+		<button type="submit" class="btn btn-primary mt-3">Back to Search</button>
+	</form>
+	</div>
+}

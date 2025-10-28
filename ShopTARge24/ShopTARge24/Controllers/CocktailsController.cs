@@ -28,16 +28,17 @@ namespace ShopTARge24.Controllers
             {
                 return RedirectToAction("Cocktail", "Cocktails", new { cocktail = model.CocktailName });
             }
-            return View(model);
+            return View("Index", model);
         }
 
         [HttpGet]
-        public IActionResult Cocktail(string cocktail)
+        public async Task<IActionResult> Cocktail(string cocktail)
         {
             CocktailResultDto dto = new();
             dto.strDrink = cocktail;
-            _cocktailService.CocktailWebResult(dto);
+            await _cocktailService.CocktailWebResult(dto);
             CocktailViewModel vm = new();
+            vm.idDrink = dto.idDrink;
             vm.strDrink = dto.strDrink;
             vm.strCategory = dto.strCategory;
             vm.strAlcoholic = dto.strAlcoholic;

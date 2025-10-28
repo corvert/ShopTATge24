@@ -7,6 +7,12 @@ using Newtonsoft.Json;
 
 namespace Shop.Core.Dto
 {
+    public class CocktailApiResponse
+    {
+        [JsonProperty("drinks")]
+        public List<CocktailWebClientDto> Drinks { get; set; }
+    }
+
     public class CocktailWebClientDto
     {
         [JsonProperty("idDrink")]
