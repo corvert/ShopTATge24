@@ -7,131 +7,133 @@ using Newtonsoft.Json;
 
 namespace Shop.Core.Dto.OpenWeatherDtos
 {
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Clouds
     {
-        [JsonProperty("all")]
+        [JsonProperty("all", NullValueHandling = NullValueHandling.Ignore)]
         public int all { get; set; }
     }
 
     public class Coord
     {
-        [JsonProperty("lon")]
+        [JsonProperty("lon", NullValueHandling = NullValueHandling.Ignore)]
         public double lon { get; set; }
 
-        [JsonProperty("lat")]
+        [JsonProperty("lat", NullValueHandling = NullValueHandling.Ignore)]
         public double lat { get; set; }
     }
 
     public class Main
     {
-        [JsonProperty("temp")]
+        [JsonProperty("temp", NullValueHandling = NullValueHandling.Ignore)]
         public double temp { get; set; }
 
-        [JsonProperty("feels_like")]
+        [JsonProperty("feels_like", NullValueHandling = NullValueHandling.Ignore)]
         public double feels_like { get; set; }
 
-        [JsonProperty("temp_min")]
+        [JsonProperty("temp_min", NullValueHandling = NullValueHandling.Ignore)]
         public double temp_min { get; set; }
 
-        [JsonProperty("temp_max")]
+        [JsonProperty("temp_max", NullValueHandling = NullValueHandling.Ignore)]
         public double temp_max { get; set; }
 
-        [JsonProperty("pressure")]
+        [JsonProperty("pressure", NullValueHandling = NullValueHandling.Ignore)]
         public int pressure { get; set; }
 
-        [JsonProperty("humidity")]
+        [JsonProperty("humidity", NullValueHandling = NullValueHandling.Ignore)]
         public int humidity { get; set; }
 
-        [JsonProperty("sea_level")]
+        [JsonProperty("sea_level", NullValueHandling = NullValueHandling.Ignore)]
         public int sea_level { get; set; }
 
-        [JsonProperty("grnd_level")]
+        [JsonProperty("grnd_level", NullValueHandling = NullValueHandling.Ignore)]
         public int grnd_level { get; set; }
     }
 
     public class OpenWeatherRootDto
     {
-        [JsonProperty("coord")]
+        [JsonProperty("coord", NullValueHandling = NullValueHandling.Ignore)]
         public Coord coord { get; set; }
 
-        [JsonProperty("weather")]
+        [JsonProperty("weather", NullValueHandling = NullValueHandling.Ignore)]
         public List<Weather> weather { get; set; }
 
-        [JsonProperty("base")]
+        [JsonProperty("base", NullValueHandling = NullValueHandling.Ignore)]
         public string @base { get; set; }
 
-        [JsonProperty("main")]
+        [JsonProperty("main", NullValueHandling = NullValueHandling.Ignore)]
         public Main main { get; set; }
 
-        [JsonProperty("visibility")]
+        [JsonProperty("visibility", NullValueHandling = NullValueHandling.Ignore)]
         public int visibility { get; set; }
 
-        [JsonProperty("wind")]
+        [JsonProperty("wind", NullValueHandling = NullValueHandling.Ignore)]
         public Wind wind { get; set; }
 
-        [JsonProperty("clouds")]
+        [JsonProperty("clouds", NullValueHandling = NullValueHandling.Ignore)]
         public Clouds clouds { get; set; }
 
-        [JsonProperty("dt")]
+        [JsonProperty("dt", NullValueHandling = NullValueHandling.Ignore)]
         public int dt { get; set; }
 
-        [JsonProperty("sys")]
+        [JsonProperty("sys", NullValueHandling = NullValueHandling.Ignore)]
         public Sys sys { get; set; }
 
-        [JsonProperty("timezone")]
+        [JsonProperty("timezone", NullValueHandling = NullValueHandling.Ignore)]
         public int timezone { get; set; }
 
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public int id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string name { get; set; }
 
-        [JsonProperty("cod")]
+        [JsonProperty("cod", NullValueHandling = NullValueHandling.Ignore)]
         public int cod { get; set; }
     }
 
     public class Sys
     {
-        [JsonProperty("type")]
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public int type { get; set; }
 
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public int id { get; set; }
 
-        [JsonProperty("country")]
+        [JsonProperty("country", NullValueHandling = NullValueHandling.Ignore)]
         public string country { get; set; }
 
-        [JsonProperty("sunrise")]
+        [JsonProperty("sunrise", NullValueHandling = NullValueHandling.Ignore)]
         public int sunrise { get; set; }
 
-        [JsonProperty("sunset")]
+        [JsonProperty("sunset", NullValueHandling = NullValueHandling.Ignore)]
         public int sunset { get; set; }
     }
 
     public class Weather
     {
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public int id { get; set; }
 
-        [JsonProperty("main")]
+        [JsonProperty("main", NullValueHandling = NullValueHandling.Ignore)]
         public string main { get; set; }
 
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string description { get; set; }
 
-        [JsonProperty("icon")]
+        [JsonProperty("icon", NullValueHandling = NullValueHandling.Ignore)]
         public string icon { get; set; }
     }
 
     public class Wind
     {
-        [JsonProperty("speed")]
+        [JsonProperty("speed", NullValueHandling = NullValueHandling.Ignore)]
         public double speed { get; set; }
 
-        [JsonProperty("deg")]
+        [JsonProperty("deg", NullValueHandling = NullValueHandling.Ignore)]
         public int deg { get; set; }
     }
+
 
 
 }
