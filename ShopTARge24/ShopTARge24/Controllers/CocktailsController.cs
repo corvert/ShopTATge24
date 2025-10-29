@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shop.Core.Dto;
+using Shop.Core.Dto.CocktailDtos;
 using Shop.Core.ServiceInterface;
 using ShopTARge24.Models.Cocktails;
 

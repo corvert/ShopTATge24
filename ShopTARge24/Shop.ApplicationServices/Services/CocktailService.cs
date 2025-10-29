@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using Microsoft.Extensions.Http;
 using Newtonsoft.Json;
-using Shop.Core.Dto;
+using Shop.Core.Dto.CocktailDtos;
 using Shop.Core.ServiceInterface;
 
 
