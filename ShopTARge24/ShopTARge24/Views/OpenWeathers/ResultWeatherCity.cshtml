@@ -1,0 +1,42 @@
+﻿@model ShopTARge24.Models.OpenWeather.OpenWeatherViewModel
+
+<div class="container">
+	<h2>City</h2>
+	<h3>Forecast for the @Html.DisplayFor(model => model.name)</h3>
+	<hr />
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">City:
+			<b>@Html.DisplayFor(model => model.name)</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Temperature:
+			<b>@Html.DisplayFor(model => model.main.temp) °C</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Temp Feels like:
+			<b>@Html.DisplayFor(model => model.main.feels_like) °C</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Humidity:
+		<b>@Html.DisplayFor(model => model.main.humidity) %</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Pressure:
+			<b>@Html.DisplayFor(model => model.main.pressure) Hpa</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Wind Speed:
+			<b>@Html.DisplayFor(model => model.wind.speed) m/s</b>
+		</label>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-2 col-form-label">Weather Condition:
+			<b>@Model.weather.First().main</b>
+		</label>
+	</div>
+</div>

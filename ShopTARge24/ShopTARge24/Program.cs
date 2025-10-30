@@ -20,6 +20,7 @@ builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
 builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
 builder.Services.AddScoped<IChuckNorrisServcies, ChuckNorrisServcies>();
 builder.Services.AddScoped<ICocktailService, CocktailService>();
+builder.Services.AddScoped<IOpenWeatherServices, OpenWeatherServices>();
 
 builder.Services.AddDbContext<ShopContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using Nancy.Json;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
@@ -14,7 +15,13 @@ namespace ShopTARge24.ApplicationServices.Services
 {
     public class WeatherForecastServices : IWeatherForecastServices
     {
-        string apiKey = "";
+        private readonly IConfiguration _configuration;
+        public WeatherForecastServices(IConfiguration configuration)
+        {
+           
+            _configuration = configuration;
+        }
+        
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResult(AccuLocationWeatherResultDto dto)
         {
 
@@ -22,7 +29,7 @@ namespace ShopTARge24.ApplicationServices.Services
 
             //var response = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={apiKey}&q={dto.CityName}";
             var baseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/";
-
+            string apiKey = _configuration["WeatherForecast:ApiKey"];
             using (var httpClient = new HttpClient())
             {
                 var request = new HttpRequestMessage
@@ -97,6 +104,7 @@ namespace ShopTARge24.ApplicationServices.Services
 
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto)
         {
+            string apiKey = _configuration["WeatherForecast:ApiKey"];
             // string accuApiKey = "";
             string url = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={apiKey}&q={dto.CityName}";
 
