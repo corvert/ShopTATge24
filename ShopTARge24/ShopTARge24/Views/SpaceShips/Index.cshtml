@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ShopTARge24.Models.SpaceShips.SpaceShipsIndexViewModel>
 
 <div>
-	<a asp-action="create" asp-controller="Spaceships" type="submit" class="btn btn-primary">Create</a>
+	<a asp-action="create" id="testIdCreate" asp-controller="Spaceships" type="submit" class="btn btn-primary">Create</a>
 </div>
 
 <div class="h1">
@@ -26,17 +26,17 @@
 			@foreach (var spaceship in Model)
 			{
 				<tr>
-					<td>@{rowNumber++;} @rowNumber</td>
-					<td>@spaceship.Name</td>
-					<td>@spaceship.Classification</td>
-					<td>@spaceship.BuildDate</td>
-					<td>@spaceship.Crew</td>
+					<td id="testId">@{rowNumber++;} @rowNumber</td>
+				<td id="testIdName">@spaceship.Name</td>
+				<td id="testIdCal">@spaceship.Classification</td>
+				<td id="testIdBuild">@spaceship.BuildDate</td>
+				<td id="testIdCrew">@spaceship.Crew</td>
 					<td>
-					<a asp-action="details" asp-controller="spaceships" asp-route-id="@spaceship.Id" class="btn btn-outline-primary">Details</a>
+					<a asp-action="details" id="details" asp-controller="spaceships" asp-route-id="@spaceship.Id" class="btn btn-outline-primary">Details</a>
 					|
-						<a asp-action="update" asp-controller="spaceships" asp-route-id="@spaceship.Id" class="btn btn-outline-warning">Update</a>
+						<a asp-action="update" id="update" asp-controller="spaceships" asp-route-id="@spaceship.Id" class="btn btn-outline-warning">Update</a>
 					   |
-						<a asp-action="delete" asp-controller="spaceships" 	asp-route-id="@spaceship.Id" class="btn btn-outline-danger">Delete</a>
+						<a asp-action="delete" id="delete" asp-controller="spaceships" 	asp-route-id="@spaceship.Id" class="btn btn-outline-danger">Delete</a>
 						
 				</td>
 				</tr>	
