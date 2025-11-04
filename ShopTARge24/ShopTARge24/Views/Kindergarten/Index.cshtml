@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ShopTARge24.Models.Kindergarten.KindergartenIndexViewModel>
 
 	<div>
-		<a asp-action="create" asp-controller="Kindergarten" type="submit" class="btn btn-primary">Create</a>
+	<a asp-action="create" id="createNew" asp-controller="Kindergarten" type="submit" class="btn btn-primary">Create</a>
 	</div>
 
 	<div class="h1">
@@ -12,7 +12,7 @@
 			<thead>
 				<tr>
 				<th scope="col">Nr</th>
-				<th scope="col">Group name</th>
+				<th  scope="col">Group name</th>
 				<th scope="col">ChildrenCount</th>
 				<th scope="col">Kindergarten name</th>
 				<th scope="col">Teacher name</th>
@@ -31,18 +31,18 @@
 			{
 				<tr>
 					<td>@{rowNumber++;} @rowNumber</td>
-					<td>@kindergarten.GroupName</td>
-					<td>@kindergarten.ChildrenCount</td>
-					<td>@kindergarten.KindergartenName</td>
-					<td>@kindergarten.TeacherName</td>
+					<td id="GroupName">@kindergarten.GroupName</td>
+					<td id="ChildrenCount">@kindergarten.ChildrenCount</td>
+					<td id="KindergartenName">@kindergarten.KindergartenName</td>
+					<td id="TeacherName">@kindergarten.TeacherName</td>
 					<td>@kindergarten.CreatedAt</td>
 					<td>@kindergarten.UpdatedAt</td>
 				<td>
-					<a asp-action="details" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-primary">Details</a>
+					<a id="detailsBtn" asp-action="details" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-primary">Details</a>
 					|
-					<a asp-action="update" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-warning">Update</a>
+					<a id="updateBtn" asp-action="update" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-warning">Update</a>
 					|
-					<a asp-action="delete" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-danger">Delete</a>
+					<a id="deleteBtn" asp-action="delete" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-danger">Delete</a>
 
 				</td>
 				</tr>
