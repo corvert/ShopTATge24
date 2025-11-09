@@ -36,7 +36,7 @@ namespace SeleniumTesting
             Assert.That(testName, Is.EqualTo("TestName"));
             Assert.That(testCal, Is.EqualTo("TestClassification"));
             Console.WriteLine("Test Passed");
-            //DetailsTest();
+            DetailsTest();
             //UpdateTest();
             //UpdateTestBack();
             //DeleteTest();
