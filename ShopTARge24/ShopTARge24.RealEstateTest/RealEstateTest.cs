@@ -192,8 +192,83 @@ namespace ShopTARge24.RealEstateTest
             Assert.DoesNotMatch(createRealEstate.BuildingType, result.BuildingType);
         }
 
-        
-        
+        [Fact]
+        public async Task Should_ReturntRealEstate_WhenCorrectDataDetailAsync()
+        {
+            //Arrange
+            RealEstateDto dto = mockRealEstateDto();
+
+            //Act
+            var createdRealEstate = await Svc<IRealEstateServices>().Create(dto);
+            var detailedRealEstate = await Svc<IRealEstateServices>().DetailAsync((Guid)createdRealEstate.Id);
+
+            //Assert
+            Assert.NotNull(detailedRealEstate);
+            Assert.Equal(createdRealEstate.Id, detailedRealEstate.Id);
+            Assert.Equal(createdRealEstate.Area, detailedRealEstate.Area);
+            Assert.Equal(createdRealEstate.Location, detailedRealEstate.Location);
+            Assert.Equal(createdRealEstate.RoomNumber, detailedRealEstate.RoomNumber);
+            Assert.Equal(createdRealEstate.BuildingType, detailedRealEstate.BuildingType);
+        }
+
+        [Fact]
+        public async Task Should_UpdateRealEstate_WhenPartialUpdate()
+        {
+            //Arrange
+            RealEstateDto dto = mockRealEstateDto();
+
+            //Act
+            var createdRealEstate = await Svc<IRealEstateServices>().Create(dto);
+
+            var updateDto = new RealEstateDto
+            {
+              
+                Area = 99, 
+                Location = "Changed Location Only", 
+                RoomNumber = createdRealEstate.RoomNumber, 
+                BuildingType = createdRealEstate.BuildingType,
+                CreatedAt = createdRealEstate.CreatedAt,
+                ModifiedAt = DateTime.UtcNow
+            };
+
+            var updatedRealEstate = await Svc<IRealEstateServices>().Update(updateDto);
+
+            //Assert        
+           
+            Assert.NotEqual(createdRealEstate.Area, updatedRealEstate.Area);
+            Assert.DoesNotMatch(createdRealEstate.Area.ToString(), updatedRealEstate.Area.ToString());
+            Assert.Equal("Changed Location Only", updatedRealEstate.Location);
+            Assert.NotEqual(createdRealEstate.Location, updatedRealEstate.Location);
+            Assert.Equal(createdRealEstate.RoomNumber, updatedRealEstate.RoomNumber);
+            Assert.Equal(createdRealEstate.BuildingType, updatedRealEstate.BuildingType);
+        }
+
+        [Fact]
+        public async Task ShouldNot_CreateRealEstate_PartialNullValues()
+        {
+            //Arrange
+            RealEstateDto dto = new RealEstateDto
+            {
+                Area = null,
+                Location = "Test Location",
+                RoomNumber = 3,
+                BuildingType = "",
+                CreatedAt = DateTime.UtcNow,
+                ModifiedAt = DateTime.UtcNow
+            };
+
+            //Act
+            var result = await Svc<IRealEstateServices>().Create(dto);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Null(result.Area);
+            Assert.NotNull(result.Location);
+            Assert.NotNull(result.RoomNumber);
+
+        }
+
+
 
         private RealEstateDto mockNullRealEstateData()
         {
