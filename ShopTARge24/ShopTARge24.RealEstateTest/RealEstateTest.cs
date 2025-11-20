@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
+using Shop.Data;
 
 namespace ShopTARge24.RealEstateTest
 {
@@ -423,6 +425,43 @@ namespace ShopTARge24.RealEstateTest
             Assert.IsType<int>(realEstate.RoomNumber);
             Assert.IsType<string>(realEstate.Location);
             Assert.IsType<DateTime>(realEstate.CreatedAt);
+
+        }
+
+        [Fact]
+        public async Task Should_DeleteRelatedImages_WhenDeleteRealEstate()
+        {
+            var dto = mockRealEstateDto();
+
+            var created = await Svc<IRealEstateServices>().Create(dto);
+            var id = (Guid)created.Id;
+
+            var db = Svc<ShopContext>();
+            db.FileToDatabase.Add(new Shop.Core.Domain.FileToDatabase
+            {
+                Id = Guid.NewGuid(),
+                RealEstateId = id,
+                ImageTitle = "kitchen.jpg",
+                ImageData = new byte[] { 1, 2, 3, 4, 5, 6, 7, }
+            });
+
+            db.FileToDatabase.Add(new Shop.Core.Domain.FileToDatabase
+            {
+                Id = Guid.NewGuid(),
+                RealEstateId = id,
+                ImageTitle = "livingroom.jpg",
+                ImageData = new byte[] { 8,9,10,11,12 }
+            });
+            await db.SaveChangesAsync();
+
+            await Svc<IRealEstateServices>().Delete(id);
+
+            //act
+            var leftOvers = db.FileToDatabase.Where(x => x.RealEstateId == id).ToList();
+
+            //assert
+            Assert.Empty(leftOvers);
+
 
         }
 

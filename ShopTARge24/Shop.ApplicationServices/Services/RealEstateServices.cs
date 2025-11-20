@@ -52,9 +52,21 @@ namespace Shop.ApplicationServices.Services
         public async Task<RealEstate> Delete(Guid id)
         {
             var realEsate = await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
+            var images = await _context.FileToDatabase
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new FileToDatabaseDto
+                {
+                    Id = y.Id,
+                    ImageTitle = y.ImageTitle,
+                    RealEstateId = y.RealEstateId
+                }
+                ).ToArrayAsync();
+           
+
             if (realEsate != null)
 
             {
+                await _fileServices.RemoveImagesFromDatabase(images);
                 _context.RealEstates.Remove(realEsate);
                 await _context.SaveChangesAsync();
             }
