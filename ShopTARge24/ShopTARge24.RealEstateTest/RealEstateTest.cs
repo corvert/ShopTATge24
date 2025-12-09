@@ -476,7 +476,7 @@ namespace ShopTARge24.RealEstateTest
                 Id = null,
                 Area = null,
                 Location = "",
-                RoomNumber = null,
+                RoomNumber = 0,
                 BuildingType = "",
                 CreatedAt = DateTime.UtcNow,
                 ModifiedAt = DateTime.UtcNow
