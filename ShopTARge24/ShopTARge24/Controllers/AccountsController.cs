@@ -283,19 +283,26 @@ namespace ShopTARge24.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
+                if (user != null)
                 {
-                    return View("ResetPasswordConfirmation");
-                }
-                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
-                if (result.Succeeded)
-                {
-                    return View("ResetPasswordConfirmation");
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        if (await _userManager.IsLockedOutAsync(user))
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        }
+                        return View("ResetPasswordConfirmation");
+                 
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+                    return View(model);
+                }
+                return View("ResetPasswordConfirmation");
+
             }
             return View(model);
 
