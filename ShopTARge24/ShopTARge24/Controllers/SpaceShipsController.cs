@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shop.Data;
-using ShopTARge24.Models.SpaceShips;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shop.Core;
 using Shop.Core.Domain;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
-using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using ShopTARge24.Models.SpaceShips;
 
 namespace ShopTARge24.Controllers
 {
-   
 
+    [Authorize]
     public class SpaceShipsController : Controller
     {
         private readonly ShopContext _context;

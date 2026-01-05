@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
@@ -9,6 +10,7 @@ using ShopTARge24.Models.SpaceShips;
 
 namespace ShopTARge24.Controllers
 {
+    [Authorize]
     public class RealEstateController : Controller
     {
         private readonly ShopContext _context;
