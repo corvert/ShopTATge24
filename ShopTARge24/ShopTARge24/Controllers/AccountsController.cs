@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -306,6 +307,84 @@ namespace ShopTARge24.Controllers
             }
             return View(model);
 
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Accounts", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return RedirectToAction(nameof(Login));
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (result.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return View("AccountLocked");
+            }
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+            if (string.IsNullOrEmpty(email))
+            {
+                ViewBag.ErrorTitle = "Email claim not received from external provider";
+                ViewBag.ErrorMessage = "Please contact support";
+                return View("Error");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    Name = info.Principal.FindFirstValue(ClaimTypes.Name) ?? email,
+                    EmailConfirmed = true,
+                    City = "" 
+                };
+
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    foreach (var error in createResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View("Error");
+                }
+            }
+
+            await _userManager.AddLoginAsync(user, info);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return LocalRedirect(returnUrl);
         }
     }
 }

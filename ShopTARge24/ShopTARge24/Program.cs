@@ -11,6 +11,7 @@ using ShopTARge24.Hubs;
 
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -41,9 +42,32 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<ShopContext>()
     .AddDefaultTokenProviders()
  .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation");
+
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    googleOptions.CallbackPath = "/signin-google";
+})
+    .AddFacebook(facebookOptions =>
+{
+    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+    facebookOptions.CallbackPath = "/signin-facebook";
+
+    // Request email and public profile
+    facebookOptions.Scope.Add("email");
+    facebookOptions.Scope.Add("public_profile");
+
+    // Map the email claim
+    facebookOptions.Fields.Add("email");
+    facebookOptions.Fields.Add("name");
+});
+
 var app = builder.Build();
 
-app.MapControllers().RequireAuthorization();
+app.MapControllers();
 
 
 
@@ -57,6 +81,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
